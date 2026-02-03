@@ -1,38 +1,40 @@
 <div class="form-wrapper">
   <form [formGroup]="searchForm" class="search-form" (submit)="$event.preventDefault()">
-    <mat-form-field class="field-full-width" appearance="outline">
-      <mat-label>Find books...</mat-label>
 
-      <input
-        matInput
-        formControlName="query"
-        (keydown.enter)="onEnter($event)"
-      />
+    <div class="search-row">
+      <!-- Query input -->
+      <mat-form-field class="query-field" appearance="outline">
+        <mat-label>Find books...</mat-label>
 
+        <input
+          matInput
+          formControlName="query"
+          (keydown.enter)="onEnter($event)"
+        />
+
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          aria-label="Search"
+          (click)="onSearch()"
+        >
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Search type dropdown (outside mat-form-field) -->
       <select
         matNativeControl
-        matTextSuffix
         formControlName="searchType"
         class="search-type-native"
         aria-label="Search type"
-        (mousedown)="$event.stopPropagation()"
-        (click)="$event.stopPropagation()"
+        (change)="onSearch()"
       >
         <option value="keyword">Keyword</option>
         <option value="semantic">Semantic</option>
-        <option value="rag">Ask the library…</option>
       </select>
+    </div>
 
-      <button
-        mat-icon-button
-        matSuffix
-        type="button"
-        aria-label="Search"
-        (click)="onSearch()"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-
-    </mat-form-field>
   </form>
 </div>

@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Observable, Subject, EMPTY, filter, map, switchMap, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, map, switchMap, takeUntil } from 'rxjs';
 
 import { Book } from '../models/book';
-import { RagResponse } from '../models/rag-response';
 import { BookService } from '../book.service';
 
-type SearchType = 'keyword' | 'semantic' | 'rag';
+type SearchType = 'keyword' | 'semantic';
 
 @Component({
   selector: 'lms-search-bar',
@@ -15,7 +14,6 @@ type SearchType = 'keyword' | 'semantic' | 'rag';
 })
 export class SearchBarComponent implements OnDestroy {
   @Output() itemsFound = new EventEmitter<Book[]>();
-  @Output() ragAnswer = new EventEmitter<RagResponse | null>();
 
   private submit$ = new Subject<void>();
   private destroy$ = new Subject<void>();
@@ -31,15 +29,7 @@ export class SearchBarComponent implements OnDestroy {
   ) {
     this.search()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(result => {
-        if ('answer' in result) {
-          this.itemsFound.emit([]);
-          this.ragAnswer.emit(result);
-        } else {
-          this.itemsFound.emit(result);
-          this.ragAnswer.emit(null);
-        }
-      });
+      .subscribe(books => this.itemsFound.emit(books));
   }
 
   ngOnDestroy(): void {
@@ -56,7 +46,7 @@ export class SearchBarComponent implements OnDestroy {
     this.onSearch();
   }
 
-  private search(): Observable<Book[] | RagResponse> {
+  private search(): Observable<Book[]> {
     return this.submit$.pipe(
       map(() => {
         const query = this.searchForm.controls.query.value.trim();
@@ -64,12 +54,7 @@ export class SearchBarComponent implements OnDestroy {
         return { query, type };
       }),
       filter(({ query }) => query.length > 1),
-      switchMap(({ query, type }) => {
-        if (type === 'rag') {
-          return this.bookService.askLibrary(query);
-        }
-        return this.bookService.search(query, type);
-      })
+      switchMap(({ query, type }) => this.bookService.search(query, type))
     );
   }
 }

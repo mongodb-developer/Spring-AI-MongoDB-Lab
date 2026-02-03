@@ -78,8 +78,7 @@ public class BookController extends BaseController{
                         return SearchType.KEYWORD;
                     }
                 }).orElse(SearchType.KEYWORD);
-
-
+        
         return new ResponseEntity<>(
                 bookService.searchBooks(theTerm, searchType),
                 HttpStatus.OK
