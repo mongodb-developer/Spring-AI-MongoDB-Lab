@@ -4,6 +4,7 @@ import { Book } from './models/book';
 import { Observable, map } from 'rxjs';
 import { BookView } from './models/book-view';
 import { URL } from './config';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +30,28 @@ export class BookService {
       );
   }
 
-  search(query: string, searchType: string | null = 'keyword', limit = 12): Observable<Book[]> {
-    if (limit > 100) {
-      limit = 100;
-    }
+  
+
+  search(
+    query: string,
+    searchType: string | null = 'keyword',
+    yearFrom?: number | null,
+    yearTo?: number | null,
+    limit = 12
+  ): Observable<Book[]> {
+    if (limit > 100) limit = 100;
 
     const type = searchType || 'keyword';
-    return this.http.get<Book[]>(`${URL}/books/search?term=${query}&type=${type}`);
+
+    let params = new HttpParams()
+      .set('term', query)
+      .set('type', type)
+      .set('limit', String(limit));
+
+    if (yearFrom != null) params = params.set('yearFrom', String(yearFrom));
+    if (yearTo != null) params = params.set('yearTo', String(yearTo));
+
+    return this.http.get<Book[]>(`${URL}/books/search`, { params });
   }
-  
+
 }

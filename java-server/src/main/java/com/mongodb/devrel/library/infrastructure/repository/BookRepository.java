@@ -26,6 +26,32 @@ public interface BookRepository extends MongoRepository<Book, String>, BookRepos
     List<Book> searchByText(String searchText, Pageable pageable);
 
 
+    /**
+     * Search books by title or author's name, using a RegExp,
+     * restricting results to books published within the given year range.
+     *
+     * @param searchText - text to search, case insensitive
+     * @param yearFrom   - inclusive lower bound
+     * @param yearTo     - inclusive upper bound
+     * @param pageable   - to paginate responses
+     * @return a List of {@link Book} that matches the searchText within the year range
+     */
+    @Query("""
+{
+      $and: [
+        {
+          $or: [
+            { title: { $regex: new RegExp(?0, 'i') } },
+            { 'authors.name': { $regex: new RegExp(?0, 'i') } }
+          ]
+        },
+        { year: { $gte: ?1, $lte: ?2 } }
+      ]
+    }
+    """)
+    List<Book> searchByTextFilteredByYear(String searchText, Integer yearFrom, Integer yearTo, Pageable pageable);
+
+
     @Query("{'_id' : ?0}")
     @Update("{'$inc': {'available': -1}}")
     Integer decreaseAvailableAmountByOne(String bookId);

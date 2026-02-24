@@ -20,8 +20,11 @@ export class SearchBarComponent implements OnDestroy {
 
   searchForm = this.fb.group({
     query: this.fb.control('', { validators: [Validators.required], nonNullable: true }),
-    searchType: this.fb.control<SearchType>('keyword', { nonNullable: true })
+    searchType: this.fb.control<SearchType>('keyword', { nonNullable: true }),
+    yearFrom: this.fb.control<number | null>(null),
+    yearTo: this.fb.control<number | null>(null)
   });
+  
 
   constructor(
     private bookService: BookService,
@@ -51,10 +54,17 @@ export class SearchBarComponent implements OnDestroy {
       map(() => {
         const query = this.searchForm.controls.query.value.trim();
         const type = this.searchForm.controls.searchType.value;
-        return { query, type };
+  
+        const yearFrom = this.searchForm.controls.yearFrom.value;
+        const yearTo = this.searchForm.controls.yearTo.value;
+  
+        return { query, type, yearFrom, yearTo };
       }),
       filter(({ query }) => query.length > 1),
-      switchMap(({ query, type }) => this.bookService.search(query, type))
+      switchMap(({ query, type, yearFrom, yearTo }) =>
+        this.bookService.search(query, type, yearFrom, yearTo)
+      )
     );
   }
+  
 }

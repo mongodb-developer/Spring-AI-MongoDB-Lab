@@ -11,19 +11,19 @@ spring:
   application:
     name: libraryapp
   ai:
-    openai:
-      api-key: ${OPENAI_KEY:yourKey}
+    ollama:
+      base-url: http://localhost:11434
+      init:
+        pull-model-strategy: never
       embedding:
-        options:
-          encoding-format: float
-          dimensions: 1536
-          model: text-embedding-3-small
+        model: qwen3-embedding:0.6b
     vectorstore:
       mongodb:
         initialize-schema: true
         collection-name: books_embedded
         index-name: vector_index
         path-name: embedding
+        metadata-fields-to-filter: year
 
 server:
   port: 5400
@@ -37,22 +37,3 @@ logging:
           mongodb: DEBUG
 jwt:
   secret: mySuperSecretKeyWithEnoughLength!
-
-embeddings:
-  source: ${EMBEDDING_SOURCE:serverlessEndpoint}
-openai:
-  base-url: https://api.openai.com
-  model: text-embedding-3-small
-  api-key: ${OPENAI_KEY:yourKey}
-vertex:
-  base-url: https://us-central1-aiplatform.googleapis.com
-  model: multimodalembedding@001
-  project-id: ${VERTEX_PROJECT_ID:yourProjectId}
-  api-key: ${VERTEX_KEY:yourKey}
-voyage:
-  base-url: https://api.voyageai.com/v1
-  model: voyage-3-large
-  output-dimension: 2048
-  api-key: ${VOYAGE_KEY:yourKey}
-serverlessEndpoint:
-  base-url: https://us-central1-projectphoenix-verteximage.cloudfunctions.net

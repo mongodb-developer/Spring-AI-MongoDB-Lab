@@ -65,10 +65,11 @@ public class BookController extends BaseController{
     @GetMapping("/search")
     public ResponseEntity<List<Book>> searchBooks(
             @RequestParam Optional<String> term,
-            @RequestParam Optional<String> type) {
+            @RequestParam Optional<String> type,
+            @RequestParam Optional<Integer> yearFrom,
+            @RequestParam Optional<Integer> yearTo
+    ) {
         String theTerm = term.orElse("");
-
-        System.out.println(type);
 
         SearchType searchType = type
                 .map(s -> {
@@ -77,10 +78,11 @@ public class BookController extends BaseController{
                     } catch (IllegalArgumentException e) {
                         return SearchType.KEYWORD;
                     }
-                }).orElse(SearchType.KEYWORD);
-        
+                })
+                .orElse(SearchType.KEYWORD);
+
         return new ResponseEntity<>(
-                bookService.searchBooks(theTerm, searchType),
+                bookService.searchBooks(theTerm, searchType, yearFrom.orElse(null), yearTo.orElse(null)),
                 HttpStatus.OK
         );
     }

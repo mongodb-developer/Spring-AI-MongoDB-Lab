@@ -33,11 +33,33 @@ public class BookService {
         return bookRepository.findBookWithAvailability(id);
     }
 
-    public List<Book> searchBooks(String term, SearchType searchType) {
+    public List<Book> searchBooks(String term, SearchType searchType, Integer yearFrom, Integer yearTo) {
+
+        boolean hasYearFilter = yearFrom != null && yearTo != null;
 
         return switch (searchType) {
-            case KEYWORD -> bookRepository.searchByText(term, DEFAULT_PAGE);
-            case SEMANTIC -> bookLookupService.semanticSearchBooks(term);
+            case KEYWORD -> {
+                if (hasYearFilter) {
+                    yield bookRepository.searchByTextFilteredByYear(
+                            term,
+                            yearFrom,
+                            yearTo,
+                            DEFAULT_PAGE
+                    );
+                }
+                yield bookRepository.searchByText(term, DEFAULT_PAGE);
+            }
+
+            case SEMANTIC -> {
+                if (hasYearFilter) {
+                    yield bookLookupService.semanticSearchBooksFilteredByYear(
+                            term,
+                            yearFrom,
+                            yearTo
+                    );
+                }
+                yield bookLookupService.semanticSearchBooks(term);
+            }
         };
     }
 

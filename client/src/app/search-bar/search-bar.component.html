@@ -1,6 +1,5 @@
 <div class="form-wrapper">
   <form [formGroup]="searchForm" class="search-form" (submit)="$event.preventDefault()">
-
     <div class="search-row">
       <!-- Query input -->
       <mat-form-field class="query-field" appearance="outline">
@@ -23,7 +22,33 @@
         </button>
       </mat-form-field>
 
-      <!-- Search type dropdown (outside mat-form-field) -->
+      <!-- Year from -->
+      <mat-form-field class="year-field" appearance="outline">
+        <mat-label>From</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="yearFrom"
+          placeholder="e.g. 1990"
+          (keydown.enter)="onEnter($event)"
+          (change)="onSearch()"
+        />
+      </mat-form-field>
+
+      <!-- Year to -->
+      <mat-form-field class="year-field" appearance="outline">
+        <mat-label>To</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="yearTo"
+          placeholder="e.g. 2005"
+          (keydown.enter)="onEnter($event)"
+          (change)="onSearch()"
+        />
+      </mat-form-field>
+
+      <!-- Search type dropdown -->
       <select
         matNativeControl
         formControlName="searchType"
@@ -35,6 +60,5 @@
         <option value="semantic">Semantic</option>
       </select>
     </div>
-
   </form>
 </div>
