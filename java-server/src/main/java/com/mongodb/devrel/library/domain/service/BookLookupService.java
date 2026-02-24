@@ -36,12 +36,8 @@ public class BookLookupService {
      */
     public List<Book> semanticSearchBooks(String query) {
 
-        List<Document> books = vectorStore.similaritySearch(
-                SearchRequest.builder()
-                        .query(query)
-                        .topK(20)
-                        .build()
-        );
+        // TODO: create search request
+        List<Document> books = null;
 
         return resolveRankedBooks(books);
     }
@@ -67,20 +63,9 @@ public class BookLookupService {
             Integer yearFrom,
             Integer yearTo
     ) {
-        FilterExpressionBuilder b = new FilterExpressionBuilder();
 
-        var filter = b.and(
-                b.gte("year", yearFrom),
-                b.lte("year", yearTo)
-        ).build();
-
-        List<Document> books = vectorStore.similaritySearch(
-                SearchRequest.builder()
-                        .query(query)
-                        .topK(20)
-                        .filterExpression(filter)
-                        .build()
-        );
+        // TODO: create filtered search request
+        List<Document> books = null;
 
         return resolveRankedBooks(books);
     }

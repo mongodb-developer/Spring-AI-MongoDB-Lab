@@ -44,7 +44,6 @@ public class BookEmbeddingService {
 
         if (!docs.isEmpty()) {
             // TODO: store documents in vectorStore
-            vectorStore.add(docs);
         }
     }
 

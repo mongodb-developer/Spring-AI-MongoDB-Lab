@@ -23,7 +23,6 @@ spring:
         collection-name: books_embedded
         index-name: vector_index
         path-name: embedding
-        metadata-fields-to-filter: year
 
 server:
   port: 5400
