@@ -7,5 +7,6 @@
       "connectionString": "mongodb://localhost:27017"
     }
   ],
-  "mdb.showOverviewPageAfterInstall": false
+  "mdb.showOverviewPageAfterInstall": false,
+  "workbench.secondarySideBar.defaultVisibility": "hidden"
 }
