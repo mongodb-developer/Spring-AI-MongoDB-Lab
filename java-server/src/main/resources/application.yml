@@ -19,7 +19,7 @@ spring:
         model: qwen3-embedding:0.6b
     vectorstore:
       mongodb:
-        initialize-schema: true
+        initialize-schema: false
         collection-name: books_embedded
         index-name: vector_index
         path-name: embedding
