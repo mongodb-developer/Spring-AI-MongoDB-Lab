@@ -17,6 +17,10 @@ spring:
         pull-model-strategy: never
       embedding:
         model: qwen3-embedding:0.6b
+      chat:
+        model: qwen2.5:1.5b
+        options:
+          num-predict: 150
     vectorstore:
       mongodb:
         initialize-schema: false
