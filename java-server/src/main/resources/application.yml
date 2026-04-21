@@ -20,7 +20,7 @@ spring:
           model: text-embedding-3-small
     vectorstore:
       mongodb:
-        initialize-schema: true
+        initialize-schema: false
         collection-name: books_embedded
         index-name: vector_index
         path-name: embedding
