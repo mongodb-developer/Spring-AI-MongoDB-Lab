@@ -19,9 +19,9 @@ public class LibraryAssistant {
     private final DocumentRetriever retriever;
     private final BookLookupService bookLookupService;
 
-    public LibraryAssistant(Advisor ragAdvisor, ChatClient openAiChatClient, DocumentRetriever retriever, BookLookupService bookLookupService) {
+    public LibraryAssistant(Advisor ragAdvisor, ChatClient chatClient, DocumentRetriever retriever, BookLookupService bookLookupService) {
         this.ragAdvisor = ragAdvisor;
-        this.chatClient = openAiChatClient;
+        this.chatClient = chatClient;
         this.retriever = retriever;
         this.bookLookupService = bookLookupService;
     }

@@ -11,13 +11,12 @@ spring:
   application:
     name: libraryapp
   ai:
-    openai:
-      api-key: ${OPENAI_KEY:yourKey}
+    ollama:
+      base-url: http://localhost:11434
+      init:
+        pull-model-strategy: never
       embedding:
-        options:
-          encoding-format: float
-          dimensions: 1536
-          model: text-embedding-3-small
+        model: qwen3-embedding:0.6b
     vectorstore:
       mongodb:
         initialize-schema: false

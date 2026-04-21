@@ -24,7 +24,7 @@ public class RagConfig {
     public DocumentRetriever documentRetriever() {
         return VectorStoreDocumentRetriever.builder()
                 .vectorStore(vectorStore)
-                .similarityThreshold(0.5)
+                .similarityThreshold(0.8)
                 .topK(6)
                 .build();
     }
@@ -41,9 +41,12 @@ public class RagConfig {
                 
                     The patron has asked the following question:
                     "<query>"
+                    
+                    Use the patron’s question as the subject. Do not reinterpret it.
                 
-                    First, identify the core subject of the patron’s question 
-                    (for example, turn “books about basketball” into “basketball”).
+                    If the context is not relevant to the user's question,
+                    say:
+                    "We don’t appear to have books that answer that directly."
                 
                     Below are the books and materials available in the library related to that subject:
                 
