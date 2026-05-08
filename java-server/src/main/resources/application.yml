@@ -23,7 +23,7 @@ spring:
           num-predict: 150
     vectorstore:
       mongodb:
-        initialize-schema: false
+        initialize-schema: true
         collection-name: books_embedded
         index-name: vector_index
         path-name: embedding
