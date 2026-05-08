@@ -22,7 +22,7 @@ export class SearchBarComponent implements OnDestroy {
 
   searchForm = this.fb.group({
     query: this.fb.control('', { validators: [Validators.required], nonNullable: true }),
-    searchType: this.fb.control<SearchType>('keyword', { nonNullable: true })
+    searchType: this.fb.control<SearchType>('rag', { nonNullable: true })
   });
 
   constructor(
