@@ -20,66 +20,26 @@ public class RagConfig {
         this.vectorStore = vectorStore;
     }
 
-    @Bean
-    public DocumentRetriever documentRetriever() {
-        return VectorStoreDocumentRetriever.builder()
-                .vectorStore(vectorStore)
-                .similarityThreshold(0.7)
-                .topK(6)
-                .build();
-    }
+    // Add a document retriever `Bean` that uses our vector store,
+    // and performs vector searches with a similarity threshold
+    // of 0.7, and returns the top 6 results
 
-    @Bean
-    public PromptTemplate ragPromptTemplate() {
-        return PromptTemplate.builder()
-                .renderer(StTemplateRenderer.builder()
-                        .startDelimiterToken('<')
-                        .endDelimiterToken('>')
-                        .build())
-                .template("""
-                    You are a knowledgeable and helpful librarian.
-                
-                    The patron has asked the following question:
-                    "<query>"
-                    
-                    Use the patron’s question as the subject. Do not reinterpret it.
-                
-                    If the context is not relevant to the user's question,
-                    say:
-                    "We don’t appear to have books that answer that directly."
-                
-                    Below are the books and materials available in the library related to that subject:
-                
-                    ---------------------
-                    <context>
-                    ---------------------
-                
-                    Using only the information in these materials, respond like a librarian:
-                
-                    • Begin with: “Yes, we have books related to [subject].”  
-                      Replace [subject] with the clean topic you identified.
-                
-                    • Then explain briefly what subjects or themes these books cover.
-                
-                    • If there are no relevant books, say:
-                      “We don’t appear to have books that answer that directly.”
-                
-                    • Keep the tone friendly, professional, and concise.
-                    • Do NOT invent details not present in the material.
-                    • Do NOT mention the context or the process.
-                    """)
-                .build();
-    }
+    // CODE HERE
 
-    @Bean
-    public Advisor ragAdvisor(DocumentRetriever retriever) {
-        return RetrievalAugmentationAdvisor.builder()
-                .documentRetriever(retriever)
-                .queryAugmenter(ContextualQueryAugmenter.builder()
-                        .promptTemplate(ragPromptTemplate())
-                        .allowEmptyContext(true)
-                        .build()
-                    )
-                .build();
-    }
+
+
+    // Build a `PromptTemplate` `Bean that gets sent to the LLM, along
+    // with the retrieved documents that informs it on the role it
+    // is playing, a helpful library assistant, along with how we
+    // want it to answer our questions
+
+    // CODE HERE
+
+
+
+    // Build a `RetrievalAugmentationAdvisor` with our configured `retriever`,
+    // our `ragPromptTemplate`, and we will also tell it we do not want to
+    // answer if we have no relevant documents in our db.
+
+    // CODE HERE
 }

@@ -3,6 +3,7 @@ package com.mongodb.devrel.library.domain.service;
 import com.mongodb.devrel.library.domain.model.Book;
 import com.mongodb.devrel.library.domain.model.Author;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,16 @@ public class BookEmbeddingService {
                 ))
                 .toList();
 
-        vectorStore.add(docs);
+        TokenTextSplitter splitter = TokenTextSplitter.builder()
+                .withChunkSize(800)
+                .withMinChunkSizeChars(350)
+                .withMinChunkLengthToEmbed(10)
+                .withKeepSeparator(true)
+                .build();
+
+        List<Document> chunks = splitter.apply(docs);
+
+        // Store your chunked documents in your vector store
+        // CODE HERE
     }
 }
