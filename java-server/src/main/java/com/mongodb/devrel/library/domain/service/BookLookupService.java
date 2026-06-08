@@ -36,6 +36,10 @@ public class BookLookupService {
 
     public List<Book> resolveRankedBooks(List<Document> docs) {
 
+        if(docs == null || docs.isEmpty()) {
+            return null;
+        }
+
         List<String> ids = docs.stream()
                 .map(d -> d.getMetadata().get("id").toString())
                 .toList();
