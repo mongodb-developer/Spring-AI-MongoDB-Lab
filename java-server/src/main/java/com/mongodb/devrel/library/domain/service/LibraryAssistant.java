@@ -30,14 +30,11 @@ public class LibraryAssistant {
 
     public RagResponse askLibraryAssistant(String question) {
 
-        // Call our `chatClient` and pass in our `ragAdvisor` and our user `question`.
-        // We'll return in our `ChatResponse`
-
-        //
-        // CODE HERE
-        //
-
-
+        ChatResponse response = chatClient.prompt()
+                .advisors(ragAdvisor)
+                .user(question)
+                .call()
+                .chatResponse();
 
         // This will extract the retrieved documents used to inform our LLM response.
         // it is done separately here as there is no way to access the advisor results when using the chatClient to retrieve
