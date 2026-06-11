@@ -46,7 +46,6 @@ public class BookEmbeddingService {
 
         List<Document> chunks = splitter.apply(docs);
 
-        // Store your chunked documents in your vector store
-        // CODE HERE
+        vectorStore.add(chunks);
     }
 }

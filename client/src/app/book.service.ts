@@ -48,5 +48,12 @@ export class BookService {
       }
     );
   }
-  
+
+  askAgent(query: string, conversationId: string) {
+    return this.http.post<RagResponse>(
+      `${URL}/agent`,
+      { ask: query, conversationId }
+    );
+  }
+
 }

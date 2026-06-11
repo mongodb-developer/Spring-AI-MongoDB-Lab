@@ -1,3 +1,11 @@
 package com.mongodb.devrel.library.application.web.controller.response;
 
-public record AgentResponse(String answer) {}
+import com.mongodb.devrel.library.domain.model.Book;
+
+import java.util.List;
+
+public record AgentResponse(
+        String answer,
+        List<Book> books
+) {
+}

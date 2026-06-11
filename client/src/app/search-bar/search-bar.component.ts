@@ -6,7 +6,7 @@ import { Book } from '../models/book';
 import { RagResponse } from '../models/rag-response';
 import { BookService } from '../book.service';
 
-type SearchType = 'keyword' | 'semantic' | 'rag';
+type SearchType = 'keyword' | 'semantic' | 'rag' | 'agent';
 
 @Component({
   selector: 'lms-search-bar',
@@ -19,10 +19,11 @@ export class SearchBarComponent implements OnDestroy {
 
   private submit$ = new Subject<void>();
   private destroy$ = new Subject<void>();
+  private conversationId = crypto.randomUUID();
 
   searchForm = this.fb.group({
     query: this.fb.control('', { validators: [Validators.required], nonNullable: true }),
-    searchType: this.fb.control<SearchType>('rag', { nonNullable: true })
+    searchType: this.fb.control<SearchType>('agent', { nonNullable: true })
   });
 
   constructor(
@@ -56,7 +57,7 @@ export class SearchBarComponent implements OnDestroy {
     this.onSearch();
   }
 
-  private search(): Observable<Book[] | RagResponse> {
+  private search(): Observable<Book[] | RagResponse > {
     return this.submit$.pipe(
       map(() => {
         const query = this.searchForm.controls.query.value.trim();
@@ -67,6 +68,9 @@ export class SearchBarComponent implements OnDestroy {
       switchMap(({ query, type }) => {
         if (type === 'rag') {
           return this.bookService.askLibrary(query);
+        }
+        if (type === 'agent') {
+          return this.bookService.askAgent(query, this.conversationId);
         }
         return this.bookService.search(query, type);
       })

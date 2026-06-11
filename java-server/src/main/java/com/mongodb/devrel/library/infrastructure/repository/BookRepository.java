@@ -25,6 +25,7 @@ public interface BookRepository extends MongoRepository<Book, String>, BookRepos
     @Query("{$or:[ {title: {$regex: new RegExp(?0, 'i')}}, {'authors.name': {$regex: new RegExp(?0, 'i')}},] }")
     List<Book> searchByText(String searchText, Pageable pageable);
 
+    Book findBookByTitle(String title);
 
     @Query("{'_id' : ?0}")
     @Update("{'$inc': {'available': -1}}")
