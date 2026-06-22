@@ -22,18 +22,12 @@ public class LibraryOrchestrator {
 
     public AgentResponse process(String question, String conversationId) {
 
-        AgentDecision decision =
-                plannerAgent.decide(question, conversationId);
 
-        return switch (decision.action()) {
+        // TODO: Call the planner agent to decide which which decision to take
+        // Add code here
 
-            case RECOMMEND_BOOKS ->
-                    recommendationAgent.process(
-                            decision.query());
+        // TODO: use the `decision.action()` to decide which agent process to take
+        // Add code here
 
-            case SUMMARIZE_BOOK ->
-                    summaryAgent.process(
-                            decision.query());
-        };
     }
 }

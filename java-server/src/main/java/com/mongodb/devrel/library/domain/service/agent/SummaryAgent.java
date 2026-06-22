@@ -23,7 +23,8 @@ public class SummaryAgent {
 
     public AgentResponse process(String title) {
 
-        Book book = libraryTools.findBookByTitle(title);
+        // TODO: Access the library tools and use the `findBookByTitle` tool to get the book mentioned by the user
+        // Add code here
 
         if (book == null) {
             return new AgentResponse(
@@ -32,21 +33,10 @@ public class SummaryAgent {
             );
         }
 
-        String answer = chatClient.prompt()
-                .system("""
-                You are a librarian.
+        // TODO: Create the chat client prompt that provides the LLM the book synopsis and the approptiate instructions to summarize it
+        // Add code here
 
-                Summarize the provided book synopsis.
 
-                Do not mention metadata.
-                Do not mention search results.
-                Do not mention tools.
-
-                Keep the summary under 100 words.
-                """)
-                .user(book.synopsis())
-                .call()
-                .content();
 
         return new AgentResponse(
                 answer,

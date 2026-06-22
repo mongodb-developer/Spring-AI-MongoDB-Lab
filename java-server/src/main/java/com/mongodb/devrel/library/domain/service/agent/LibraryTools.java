@@ -24,44 +24,12 @@ public class LibraryTools {
         this.bookLookupService = bookLookupService;
     }
 
-    @Tool(description = """
-        Search the library catalogue for books matching a theme,
-        topic, genre, character type, plot element, or synopsis.
+    // TODO: create the `findBookByTitle` tool that takes in the string Title and returns the book document
+    // Add code here
 
-        Examples:
-        - books about dragons
-        - mystery novels
-        - space exploration
-        - coming of age stories
 
-        Returns the most relevant books from the library catalogue.
-        Each result includes the title, author, publication year,
-        and synopsis.
-        """)
-    public List<Book> findBooksSemantically(String query) {
+    // TODO: create the `findBooksSemantically` tool that takes a user query a returns semantically similar books
+    // Add code here
 
-        List<Document> results = vectorStore.similaritySearch(
-                SearchRequest.builder()
-                        .query(query)
-                        .topK(5)
-                        .build()
-        );
-
-        if (results.isEmpty()) {
-            return List.of();
-        }
-
-        return bookLookupService.resolveRankedBooks(results);
-    }
-
-    @Tool(description = """
-    Find a specific book by title.
-    
-    Returns the complete book information.
-    """)
-    public Book findBookByTitle(String title) {
-
-        return bookRepository.findBookByTitle(title);
-    }
 
 }

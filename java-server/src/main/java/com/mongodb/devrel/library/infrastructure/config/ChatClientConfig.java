@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ChatClientConfig {
 
-    @Bean
-    public ChatClient chatClient(OllamaChatModel chatModel) {
-        return ChatClient.create(chatModel);
-    }
+    //TODO: Instantiate the ChatClient bean using the OllamaChatModel
+    // Add code here
 }

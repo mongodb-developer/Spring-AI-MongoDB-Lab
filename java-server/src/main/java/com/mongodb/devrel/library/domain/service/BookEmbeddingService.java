@@ -37,15 +37,8 @@ public class BookEmbeddingService {
                 ))
                 .toList();
 
-        TokenTextSplitter splitter = TokenTextSplitter.builder()
-                .withChunkSize(800)
-                .withMinChunkSizeChars(350)
-                .withMinChunkLengthToEmbed(10)
-                .withKeepSeparator(true)
-                .build();
+        // Store the documents created above in your vector store
+        // TODO: Add code here
 
-        List<Document> chunks = splitter.apply(docs);
-
-        vectorStore.add(chunks);
     }
 }

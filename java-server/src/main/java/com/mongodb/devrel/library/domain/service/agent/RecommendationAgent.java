@@ -23,19 +23,11 @@ public class RecommendationAgent {
 
     public AgentResponse process(String query) {
 
-        String answer = chatClient.prompt()
-                .system("""
-                        You are a library recommendation specialist.
+        // TODO: Create the chat client prompt that provides the LLM the libraryTools we created
+        //      and instructions to get semantically similar books
+        // Add code here
 
-                        Use your available tools to find books matching
-                        the user's interests.
 
-                        Explain why the recommendations are relevant.
-                        """)
-                .tools(libraryTools)
-                .user(query)
-                .call()
-                .content();
 
         List<Book> books =
                 libraryTools.findBooksSemantically(query);
